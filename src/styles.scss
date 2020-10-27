@@ -1,1 +1,431 @@
+
 /* You can add global styles to this file, and also import other style files */
+@import "assets/layout-theme.scss";
+@import "assets/grid-layout.scss";
+@import "assets/variables.scss";
+@import "~ng-pick-datetime/assets/style/picker.min.css";
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+}
+
+[hidden] {
+  display: none !important;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+.app-loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: $primarySchneiderBgColor;
+  color: #FFF;
+  text-transform: uppercase;
+  font-size: 2.5em;
+  text-shadow: 2px 2px 10px rgba(0,0,0,0.2);
+}
+
+.mat-accent {
+  background-color: $darkSchneiderBgColor;
+  color: #FFF !important;
+}
+
+.mat-form-field-required-marker {
+  color: red;
+}
+
+form .mat-form-field:last-of-type {
+  margin-bottom: 0 !important;
+}
+
+.mat-checkbox.mat-accent {
+  background-color: transparent;
+  color: #333 !important;
+}
+
+.vertical-aligned-checkbox {
+  display: block;
+  margin-top: 15px;
+}
+
+
+a.link,
+button.link {
+  display: inline-block;
+  position: relative;
+  overflow: hidden;
+  vertical-align: top;
+  z-index: 0;
+  -webkit-transition: color 0.2s;
+  transition: color 0.2s;
+  outline: none;
+  text-decoration: none;
+  color: $primarySchneiderBgColor;
+}
+
+.inline-block {
+  display: inline-block !important;
+}
+
+.row .col.small-padding {
+  padding: 0 0.2rem;
+}
+
+.text-highlight {
+  font-weight: 500;
+}
+
+.full-height {
+  height: 100%;
+}
+
+a.link:before,
+button.link:before {
+  position: absolute;
+  top: auto;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  background-color: $primarySchneiderBgColor;
+  content: '';
+  -webkit-transition: all 0.2s;
+  -webkit-backface-visibility: hidden;
+  transition: all 0.2s;
+  backface-visibility: hidden;
+  -webkit-transform: scaleX(0);
+  transform: scaleX(0);
+}
+
+.site-image {
+  margin: 0 0 15px 0;
+  max-height: 125px;
+  max-width: 60vh;
+  padding: 4px;
+  border: 1px solid #e0e0e0;
+}
+
+.pointOfInterest-image {
+  width: 100%;
+  max-width: 7vh;
+  position: absolute;
+  right: 0px;
+  border: 1px solid #f0f0f0;
+  height: 100%;
+}
+
+.mat-card-title.page-title {
+  font-size: 1.8rem;
+}
+
+.page-title-logo {
+  background-size: cover;
+  height: 60px !important;
+  width: 60px !important;
+  margin-right: 15px;
+}
+
+a.link:hover,
+button.link:hover {
+  font-weight: 500;
+}
+
+a.link:hover:before,
+button.link:hover:before {
+  background-color: $primarySchneiderBgColor;
+  -webkit-transform: scaleX(1);
+  transform: scaleX(1);
+}
+
+.well {
+  padding: 15px;
+  background: #f8f8f9;
+  box-shadow: 0 0 0 1px rgba(34,36,38,.22) inset, 0 0 0 0 transparent;
+  margin-bottom: 15px;
+}
+
+.text-align-to-icon {
+  position: relative;
+  top: -6px;
+}
+
+@keyframes dots {
+  50% {
+    transform: translateY(-.4rem);
+  }
+
+  100% {
+    transform: translateY(0);
+  }
+}
+
+.d {
+  animation: dots 1.5s ease-out infinite;
+}
+
+.d-2 {
+  animation-delay: .5s;
+}
+
+.d-3 {
+  animation-delay: 1s;
+}
+
+.no-padding {
+  padding: 0 !important;
+}
+
+.no-margin {
+  margin: 0 !important;
+}
+
+.no-background {
+  background: none !important;
+}
+
+.no-border {
+  border: none !important;
+}
+
+.no-text-decoration {
+  text-decoration: none !important;
+}
+
+.icon-margin-right {
+  margin-right: 5px;
+}
+
+.icon-margin-left {
+  margin-left: 5px;
+}
+
+.flex-container {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.main-container {
+  display: flex;
+  width: 50%;
+  height: 75%;
+  max-height: 75%;
+  border: 1px solid red;
+}
+
+.flex-left-container {
+  flex: 0 1 50%;
+  min-height: 100%;
+  max-width: 50%;
+}
+
+.flex-right-container {
+  flex: 0 1 50%;
+  display: flex;
+  height: 100%;
+  max-width: 50%;
+  flex-wrap: wrap;
+  align-items: flex-start;
+}
+
+.flex-right {
+  margin-left: auto;
+}
+
+.flex-left {
+  justify-content: flex-start;
+}
+
+.flex-center {
+  align-items: center;
+  justify-content: center;
+}
+
+.flex-fully-center {
+  height: 100%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.form-container {
+  display: flex;
+  flex-direction: column;
+  max-width: 400px;
+}
+
+.search-table-field {
+  max-height: 50px;
+  top: -8px;
+  width: 230px;
+}
+
+.form-field-radio {
+  padding: 0 10px;
+}
+
+.mat-radio-label {
+  margin-right: 10px;
+}
+
+label.float-radio-label {
+  color: rgba(0, 0, 0, 0.54);
+  text-align: left;
+  margin-right: 10px;
+}
+/* OVERRIDE Material angular styles */
+label.sliderLabel {
+  color: rgba(0, 0, 0, 0.54);
+  margin-bottom: 5px;
+  position: absolute;
+  text-align: left;
+  padding-left: 0;
+  width: 100%;
+  top: 15px;
+  transition: 0.2s ease;
+}
+
+label.sliderActive {
+  top: 0;
+  font-size: 0.94em;
+  letter-spacing: -0.5px;
+}
+
+.mat-row {
+  min-height: 40px !important;
+}
+
+.mat-header-cell {
+  font-size: 14px;
+}
+
+.mat-button.mat-raised-button {
+  min-width: 55px !important;
+}
+
+button {
+  cursor: pointer;
+}
+
+.mat-form-field-label-wrapper {
+  top: -1em;
+  padding-top: 1em;
+}
+
+.mat-form-field.belowHint {
+  margin-top: 15px;
+}
+
+.mat-form-field-can-float .mat-input-server:focus + .mat-form-field-label-wrapper .mat-form-field-label, .mat-form-field-can-float.mat-form-field-should-float .mat-form-field-label {
+  font-size: 1.2em;
+}
+
+form .mat-form-field:last-of-type {
+  margin-bottom: 20px;
+}
+
+button.table-actions:hover > .mat-icon.material-icons {
+  font-weight: 700;
+  text-shadow: 2px 3px 3px rgba(58, 58, 58, 0.28);
+}
+
+button.table-actions:disabled {
+  cursor: not-allowed;
+}
+
+button.table-actions:disabled > .mat-icon.material-icons {
+  color: #b5b5b5 !important;
+}
+
+.mat-raised-button .mat-button-wrapper {
+  color: #FFF;
+}
+
+.mat-raised-button {
+  transition: all .25s ease !important;
+}
+
+.mat-raised-button:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 8px 14px rgba(60, 55, 80, 0.1), 0 8px 7px rgba(0, 0, 0, 0.08) !important;
+}
+
+.subtitle {
+  color: rgb(97, 97, 97);
+  font-size: 0.8rem;
+}
+
+.material-icons {
+  top: -1px;
+}
+
+a .material-icons {
+  text-decoration: none !important;
+}
+
+.mat-cell .material-icons {
+  color: $darkSchneiderBgColor !important;
+}
+
+.mat-form-field {
+  display: block !important;
+}
+// Truncate text in tables with ellipsis
+.mat-header-cell,
+.mat-header-cell button,
+.mat-cell {
+  display: flex;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+b {
+  font-weight: 500;
+}
+
+h1.bordered-title,
+h2.bordered-title,
+h3.bordered-title,
+h4.bordered-title {
+  border-left: 2px solid #3dcd58;
+  padding-left: 10px;
+}
+/* OVERRIDE Flags-icon styles */
+.flag-icon {
+  top: -1px;
+}
+
+.title-icon {
+  position: relative;
+  top: 5px;
+  margin-right: 2px;
+}
+
+@media screen and (max-width: 1340px) {
+  .mat-card {
+    padding: 12px !important;
+  }
+}
+
+.save-button {
+  background-color: #3dcd58 !important;
+}
