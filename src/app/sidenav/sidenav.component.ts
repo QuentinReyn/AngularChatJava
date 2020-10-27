@@ -5,10 +5,9 @@ import { Router } from '@angular/router';
 @Component({
   selector: 'app-sidenav',
   templateUrl: './sidenav.component.html',
-  styleUrls: ['./sidenav.component.scss']
+  styleUrls: ['./sidenav.component.scss'],
 })
 export class SidenavComponent implements OnInit {
-
   mobileQuery: MediaQueryList;
 
   private _mobileQueryListener: () => void;
@@ -19,7 +18,5 @@ export class SidenavComponent implements OnInit {
     this.mobileQuery.addListener(this._mobileQueryListener);
   }
 
-  ngOnInit(): void {
-  }
-
+  ngOnInit(): void {}
 }
