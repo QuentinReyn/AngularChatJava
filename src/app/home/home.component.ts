@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { User } from '../models/user.model';
+import {ChatroomsService} from '../services/chatrooms.service';
 
 const users = [
   {
@@ -206,7 +207,7 @@ const chatrooms = [
   styleUrls: ['./home.component.scss'],
 })
 export class HomeComponent implements OnInit {
-  constructor() {}
+  constructor(private chatroomService: ChatroomsService) {}
   title = 'Test Dashboard';
 
   displayedColumns: string[] = ['server', 'accountId', 'accountUsername', 'status'];
@@ -214,5 +215,9 @@ export class HomeComponent implements OnInit {
   displayedColumns1: string[] = ['server', 'name', 'ownerName'];
   dataSource1 = chatrooms;
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.chatroomService.getChatrooms().subscribe((data) => {
+      console.log(data);
+    });
+  }
 }
