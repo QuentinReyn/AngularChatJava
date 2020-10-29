@@ -1,7 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { User } from '../models/user.model';
-import {ChatroomsService} from '../services/chatrooms.service';
+import { ChatroomsService } from '../services/chatrooms.service';
 import { HttpClientModule, HttpClient } from '@angular/common/http';
+import { Chatroom } from '../models/chatroom.model';
+import { interval, Subscription } from 'rxjs';
 
 const users = [
   {
@@ -56,151 +58,151 @@ const users = [
   },
 ];
 
-const chatrooms = [
-  {
-    id: 0,
-    name: 'aa',
-    owner: {
-      account: { id: 0, username: 'Zero' },
-      currentStatus: 'active',
-      server: 'test',
-    },
-    messages: [
-      { id: 0, content: 'test0' },
-      { id: 1, content: 'test1' },
-    ],
-  },
-  {
-    id: 11,
-    name: 'zae',
-    owner: {
-      account: { id: 0, username: 'Zero' },
-      currentStatus: 'active',
-      server: 'test',
-    },
-    messages: [
-      { id: 0, content: 'test0' },
-      { id: 1, content: 'test1' },
-    ],
-  },
-  {
-    id: 12,
-    name: 'azezaea',
-    owner: {
-      account: { id: 0, username: 'Zero' },
-      currentStatus: 'active',
-      server: 'test',
-    },
-    messages: [
-      { id: 0, content: 'test0' },
-      { id: 1, content: 'test1' },
-    ],
-  },
-  {
-    id: 13,
-    name: 'ezaeae',
-    owner: {
-      account: { id: 0, username: 'Zero' },
-      currentStatus: 'active',
-      server: 'test',
-    },
-    messages: [
-      { id: 0, content: 'test0' },
-      { id: 1, content: 'test1' },
-    ],
-  },
-  {
-    id: 14,
-    name: 'zaere',
-    owner: {
-      account: { id: 0, username: 'Zero' },
-      currentStatus: 'active',
-      server: 'test',
-    },
-    messages: [
-      { id: 0, content: 'test0' },
-      { id: 1, content: 'test1' },
-    ],
-  },
-  {
-    id: 15,
-    name: 'fsdfsf',
-    owner: {
-      account: { id: 0, username: 'Zero' },
-      currentStatus: 'active',
-      server: 'test',
-    },
-    messages: [
-      { id: 0, content: 'test0' },
-      { id: 1, content: 'test1' },
-    ],
-  },
-  {
-    id: 16,
-    name: 'rezrc',
-    owner: {
-      account: { id: 0, username: 'Zero' },
-      currentStatus: 'active',
-      server: 'test',
-    },
-    messages: [
-      { id: 0, content: 'test0' },
-      { id: 1, content: 'test1' },
-    ],
-  },
-  {
-    id: 17,
-    name: 'yetet',
-    owner: {
-      account: { id: 0, username: 'Zero' },
-      currentStatus: 'active',
-      server: 'test',
-    },
-    messages: [
-      { id: 0, content: 'test0' },
-      { id: 1, content: 'test1' },
-    ],
-  },
-  {
-    id: 18,
-    name: 'zazdae',
-    owner: {
-      account: { id: 0, username: 'Zero' },
-      currentStatus: 'active',
-      server: 'test',
-    },
-    messages: [
-      { id: 0, content: 'test0' },
-      { id: 1, content: 'test1' },
-    ],
-  },
-  {
-    id: 19,
-    name: 'vdaeze',
-    owner: {
-      account: { id: 0, username: 'Zero' },
-      currentStatus: 'active',
-      server: 'test',
-    },
-    messages: [
-      { id: 0, content: 'test0' },
-      { id: 1, content: 'test1' },
-    ],
-  },
-  {
-    id: 20,
-    name: 'gzerr',
-    owner: {
-      account: { id: 0, username: 'Zero' },
-      currentStatus: 'active',
-      server: 'test',
-    },
-    messages: [
-      { id: 0, content: 'test0' },
-      { id: 1, content: 'test1' },
-    ],
-  },
-];
+// const chatrooms = [
+//   {
+//     id: 0,
+//     name: 'aa',
+//     owner: {
+//       account: { id: 0, username: 'Zero' },
+//       currentStatus: 'active',
+//       server: 'test',
+//     },
+//     messages: [
+//       { id: 0, content: 'test0' },
+//       { id: 1, content: 'test1' },
+//     ],
+//   },
+//   {
+//     id: 11,
+//     name: 'zae',
+//     owner: {
+//       account: { id: 0, username: 'Zero' },
+//       currentStatus: 'active',
+//       server: 'test',
+//     },
+//     messages: [
+//       { id: 0, content: 'test0' },
+//       { id: 1, content: 'test1' },
+//     ],
+//   },
+//   {
+//     id: 12,
+//     name: 'azezaea',
+//     owner: {
+//       account: { id: 0, username: 'Zero' },
+//       currentStatus: 'active',
+//       server: 'test',
+//     },
+//     messages: [
+//       { id: 0, content: 'test0' },
+//       { id: 1, content: 'test1' },
+//     ],
+//   },
+//   {
+//     id: 13,
+//     name: 'ezaeae',
+//     owner: {
+//       account: { id: 0, username: 'Zero' },
+//       currentStatus: 'active',
+//       server: 'test',
+//     },
+//     messages: [
+//       { id: 0, content: 'test0' },
+//       { id: 1, content: 'test1' },
+//     ],
+//   },
+//   {
+//     id: 14,
+//     name: 'zaere',
+//     owner: {
+//       account: { id: 0, username: 'Zero' },
+//       currentStatus: 'active',
+//       server: 'test',
+//     },
+//     messages: [
+//       { id: 0, content: 'test0' },
+//       { id: 1, content: 'test1' },
+//     ],
+//   },
+//   {
+//     id: 15,
+//     name: 'fsdfsf',
+//     owner: {
+//       account: { id: 0, username: 'Zero' },
+//       currentStatus: 'active',
+//       server: 'test',
+//     },
+//     messages: [
+//       { id: 0, content: 'test0' },
+//       { id: 1, content: 'test1' },
+//     ],
+//   },
+//   {
+//     id: 16,
+//     name: 'rezrc',
+//     owner: {
+//       account: { id: 0, username: 'Zero' },
+//       currentStatus: 'active',
+//       server: 'test',
+//     },
+//     messages: [
+//       { id: 0, content: 'test0' },
+//       { id: 1, content: 'test1' },
+//     ],
+//   },
+//   {
+//     id: 17,
+//     name: 'yetet',
+//     owner: {
+//       account: { id: 0, username: 'Zero' },
+//       currentStatus: 'active',
+//       server: 'test',
+//     },
+//     messages: [
+//       { id: 0, content: 'test0' },
+//       { id: 1, content: 'test1' },
+//     ],
+//   },
+//   {
+//     id: 18,
+//     name: 'zazdae',
+//     owner: {
+//       account: { id: 0, username: 'Zero' },
+//       currentStatus: 'active',
+//       server: 'test',
+//     },
+//     messages: [
+//       { id: 0, content: 'test0' },
+//       { id: 1, content: 'test1' },
+//     ],
+//   },
+//   {
+//     id: 19,
+//     name: 'vdaeze',
+//     owner: {
+//       account: { id: 0, username: 'Zero' },
+//       currentStatus: 'active',
+//       server: 'test',
+//     },
+//     messages: [
+//       { id: 0, content: 'test0' },
+//       { id: 1, content: 'test1' },
+//     ],
+//   },
+//   {
+//     id: 20,
+//     name: 'gzerr',
+//     owner: {
+//       account: { id: 0, username: 'Zero' },
+//       currentStatus: 'active',
+//       server: 'test',
+//     },
+//     messages: [
+//       { id: 0, content: 'test0' },
+//       { id: 1, content: 'test1' },
+//     ],
+//   },
+// ];
 
 @Component({
   selector: 'app-home',
@@ -208,17 +210,53 @@ const chatrooms = [
   styleUrls: ['./home.component.scss'],
 })
 export class HomeComponent implements OnInit {
-  constructor(private chatroomService: ChatroomsService) {}
+  constructor(private chatroomService: ChatroomsService,private changeDetectorRefs: ChangeDetectorRef) {}
   title = 'Test Dashboard';
 
-  displayedColumns: string[] = ['server', 'accountId', 'accountUsername', 'status'];
+  displayedColumns: string[] = [
+    'server',
+    'accountId',
+    'accountUsername',
+    'status',
+  ];
   dataSource = users;
-  displayedColumns1: string[] = ['server', 'name', 'ownerName'];
-  dataSource1 = chatrooms;
+  displayedColumns1: string[] = ['server', 'name'];
+  dataSource1: Chatroom[] = [];
+  serverUrl1 = 'http://127.0.0.1:2345';
+  serverUrl2 = 'http://127.0.0.1:2346';
+  serverUrl3 = 'http://127.0.0.1:2347';
+  chatrooms: Chatroom[] = [];
+  mySubscription: Subscription;
+  serverList = [this.serverUrl1, this.serverUrl2, this.serverUrl3];
 
   ngOnInit(): void {
-    this.chatroomService.getChatrooms().subscribe((data) => {
-      console.log(data);
+    this.getChatrooms();
+    this.mySubscription = interval(5000).subscribe((x) => {
+      this.getChatrooms();
     });
+  }
+
+  // tslint:disable-next-line: typedef
+  getChatrooms() {
+    // tslint:disable-next-line: prefer-for-of
+    this.dataSource1 = [];
+    this.chatrooms = [];
+    for (let i = 0; i < this.serverList.length; i++) {
+      // pour chaque serveur name
+      this.chatroomService
+        .getChatrooms(this.serverList[i])
+        .subscribe((data) => {
+          if (data) {
+            for (let y = 0; y < data.length; y++) {
+              // pour chaque chatroom
+              data[y].serverUrl = this.serverList[i]; // j'assigne a chaque chatroom le serveur correspondant
+              this.chatrooms.push(data[y]);
+              this.dataSource1 = this.chatrooms;
+              console.log(this.dataSource1);
+            }
+          }
+        });
+    }
+    this.changeDetectorRefs.detectChanges();
   }
 }

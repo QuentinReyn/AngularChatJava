@@ -32,7 +32,7 @@ describe('ChatroomsService', () => {
   it('should return an Observable<string[]>', () => {
     const dummyUsers = ['test', 'encore'];
 
-    service.getChatroomNames().subscribe((chatrooms) => {
+    service.getChatroomNames(service.serverUrl1).subscribe((chatrooms) => {
       expect(chatrooms.length).toBe(2);
       expect(chatrooms).toEqual(dummyUsers);
     });
