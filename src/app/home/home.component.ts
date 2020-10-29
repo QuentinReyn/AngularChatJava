@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { User } from '../models/user.model';
 import {ChatroomsService} from '../services/chatrooms.service';
+import { HttpClientModule, HttpClient } from '@angular/common/http';
 
 const users = [
   {
