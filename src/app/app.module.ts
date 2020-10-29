@@ -54,6 +54,7 @@ import { HomeComponent } from './home/home.component';
     HomeComponent
   ],
   imports: [
+    MatTableModule,
     HttpClientModule,
     BrowserModule,
     AppRoutingModule,

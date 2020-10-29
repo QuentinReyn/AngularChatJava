@@ -7,6 +7,7 @@ export class Chatroom implements Deserializable{
    public name: string;
    public owner: User;
    public messages: Message[];
+   public serverUrl: string;
 
    deserialize(input: any): this {
     // Assign input to our object BEFORE deserialize our cars to prevent already deserialized cars from being overwritten.
