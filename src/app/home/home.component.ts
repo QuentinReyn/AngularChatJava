@@ -4,6 +4,8 @@ import { ChatroomsService } from '../services/chatrooms.service';
 import { HttpClientModule, HttpClient } from '@angular/common/http';
 import { Chatroom } from '../models/chatroom.model';
 import { interval, Subscription } from 'rxjs';
+import { MatTableDataSource } from '@angular/material/table';
+import { element } from 'protractor';
 
 const users = [
   {
@@ -203,14 +205,35 @@ const users = [
 //     ],
 //   },
 // ];
+export interface PeriodicElement {
+  name: string;
+  position: number;
+  weight: number;
+  symbol: string;
+}
 
+const ELEMENT_DATA: PeriodicElement[] = [
+  { position: 1, name: 'Hydrogen', weight: 1.0079, symbol: 'H' },
+  { position: 2, name: 'Helium', weight: 4.0026, symbol: 'He' },
+  { position: 3, name: 'Lithium', weight: 6.941, symbol: 'Li' },
+  { position: 4, name: 'Beryllium', weight: 9.0122, symbol: 'Be' },
+  { position: 5, name: 'Boron', weight: 10.811, symbol: 'B' },
+  { position: 6, name: 'Carbon', weight: 12.0107, symbol: 'C' },
+  { position: 7, name: 'Nitrogen', weight: 14.0067, symbol: 'N' },
+  { position: 8, name: 'Oxygen', weight: 15.9994, symbol: 'O' },
+  { position: 9, name: 'Fluorine', weight: 18.9984, symbol: 'F' },
+  { position: 10, name: 'Neon', weight: 20.1797, symbol: 'Ne' },
+];
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss'],
 })
 export class HomeComponent implements OnInit {
-  constructor(private chatroomService: ChatroomsService,private changeDetectorRefs: ChangeDetectorRef) {}
+  constructor(
+    private chatroomService: ChatroomsService,
+    private changeDetectorRefs: ChangeDetectorRef
+  ) {}
   title = 'Test Dashboard';
 
   displayedColumns: string[] = [
@@ -219,9 +242,9 @@ export class HomeComponent implements OnInit {
     'accountUsername',
     'status',
   ];
-  dataSource = users;
-  displayedColumns1: string[] = ['server', 'name'];
-  dataSource1: Chatroom[] = [];
+  dataSource = new MatTableDataSource();
+  displayedColumns1 = ['server', 'name'];
+  dataSource1: MatTableDataSource<Chatroom>;
   serverUrl1 = 'http://127.0.0.1:2345';
   serverUrl2 = 'http://127.0.0.1:2346';
   serverUrl3 = 'http://127.0.0.1:2347';
@@ -230,6 +253,7 @@ export class HomeComponent implements OnInit {
   serverList = [this.serverUrl1, this.serverUrl2, this.serverUrl3];
 
   ngOnInit(): void {
+    this.dataSource = new MatTableDataSource<any>(users);
     this.getChatrooms();
     this.mySubscription = interval(5000).subscribe((x) => {
       this.getChatrooms();
@@ -239,7 +263,6 @@ export class HomeComponent implements OnInit {
   // tslint:disable-next-line: typedef
   getChatrooms() {
     // tslint:disable-next-line: prefer-for-of
-    this.dataSource1 = [];
     this.chatrooms = [];
     for (let i = 0; i < this.serverList.length; i++) {
       // pour chaque serveur name
@@ -251,8 +274,9 @@ export class HomeComponent implements OnInit {
               // pour chaque chatroom
               data[y].serverUrl = this.serverList[i]; // j'assigne a chaque chatroom le serveur correspondant
               this.chatrooms.push(data[y]);
-              this.dataSource1 = this.chatrooms;
-              console.log(this.dataSource1);
+              this.dataSource1 = new MatTableDataSource<Chatroom>(
+                this.chatrooms
+              );
             }
           }
         });
