@@ -6,6 +6,7 @@ import { Chatroom } from '../models/chatroom.model';
 import { interval, Subscription } from 'rxjs';
 import { MatTableDataSource } from '@angular/material/table';
 import { element } from 'protractor';
+import { UserService } from '../services/user.service';
 
 const users = [
   {
@@ -232,7 +233,8 @@ const ELEMENT_DATA: PeriodicElement[] = [
 export class HomeComponent implements OnInit {
   constructor(
     private chatroomService: ChatroomsService,
-    private changeDetectorRefs: ChangeDetectorRef
+    private changeDetectorRefs: ChangeDetectorRef,
+    private userService: UserService
   ) {}
   title = 'Test Dashboard';
 
@@ -242,22 +244,44 @@ export class HomeComponent implements OnInit {
     'accountUsername',
     'status',
   ];
-  dataSource = new MatTableDataSource();
+  dataSource: MatTableDataSource<User>;
   displayedColumns1 = ['server', 'name'];
   dataSource1: MatTableDataSource<Chatroom>;
   serverUrl1 = 'http://127.0.0.1:2345';
   serverUrl2 = 'http://127.0.0.1:2346';
   serverUrl3 = 'http://127.0.0.1:2347';
   chatrooms: Chatroom[] = [];
+  users: User[] = [];
   mySubscription: Subscription;
   serverList = [this.serverUrl1, this.serverUrl2, this.serverUrl3];
 
   ngOnInit(): void {
-    this.dataSource = new MatTableDataSource<any>(users);
+    this.getUsers();
     this.getChatrooms();
     this.mySubscription = interval(5000).subscribe((x) => {
       this.getChatrooms();
+      this.getUsers();
     });
+  }
+
+  getUsers() {
+    // tslint:disable-next-line: prefer-for-of
+    this.users = [];
+    for (let i = 0; i < this.serverList.length; i++) {
+      // pour chaque serveur name
+      this.userService.getUsers(this.serverList[i]).subscribe((data) => {
+        if (data) {
+          for (let y = 0; y < data.length; y++) {
+            // pour chaque chatroom
+            data[y].serverUrl = this.serverList[i]; // j'assigne a chaque chatroom le serveur correspondant
+            this.users.push(data[y]);
+            this.dataSource = new MatTableDataSource<User>(this.users);
+            console.log(this.users);
+          }
+        }
+      });
+    }
+    this.changeDetectorRefs.detectChanges();
   }
 
   // tslint:disable-next-line: typedef
@@ -282,5 +306,13 @@ export class HomeComponent implements OnInit {
         });
     }
     this.changeDetectorRefs.detectChanges();
+  }
+
+  getUsersCountOnServer(serverUrl) {
+    return this.users.filter((m) => m.serverUrl === serverUrl).length;
+  }
+
+  getChatroomsCountOnServer(serverUrl) {
+    return this.chatrooms.filter((m) => m.serverUrl === serverUrl).length;
   }
 }
